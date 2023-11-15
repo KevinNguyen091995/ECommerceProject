@@ -1,0 +1,21 @@
+/* Navbar */
+.navbar-brand {
+    font-size: 22px;
+}
+
+.nav-item {
+    font-size: 18px;
+}
+
+.nav-item-dropdown {
+    font-size: 14px;
+}
+
+.style-theme {
+    color: white;
+    background: #04425f;
+}
+
+.featured {
+    font-size: 52px;
+}
