@@ -3,10 +3,12 @@ from django.views import View
 from product.models import Product
 
 class IndexView(View):
-    featured_products = Product.objects.order_by('-date_listed').filter(currently_listed=True)[:3]
+    featured_product = Product.objects.order_by('-date_listed').filter(currently_listed=True)[0]
+    clothes_products = Product.objects.order_by('-date_listed').filter(tag='cl')[:3]
     
     context = {
-        'featured_products' : featured_products,
+        'featured_product' : featured_product,
+        'clothes_products' : clothes_products,
     }
 
     def get(self, request):

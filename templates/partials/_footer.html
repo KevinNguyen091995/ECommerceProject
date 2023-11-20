@@ -1,12 +1,60 @@
 {% block content %}
-<h1>FOOTER</h1>
-<div class="container footer-bottom clearfix">
-    <div class="copyright">
-      &copy; Copyright <strong><span>Kevin Nguyen</span></strong>. All Rights Reserved
-    </div>
-    <div class="credits">
-      <h1>Designed By Kevin Nguyen
+<!-- Remove the container if you want to extend the Footer to full width. -->
+<footer class="style-theme text-white">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-6 col-md-12 mb-4">
+        <h5 class="mb-3">
+          Contact Us
+        </h5>
+        <ul>
+          <hr class='bg-light'>
+            <li>
+              Email: KevinNguyen09161995@gmail.com
+            </li>
+            <li class='py-2'>
+              Phone Number: +1 (682)-551-6131
+            </li>
+        </ul>
+      </div>
+      <div class="col-lg-3 col-md-6 text-center">
+        <h5 class="mb-3" style="letter-spacing: 2px">links</h5>
+        <ul class="list-unstyled mb-0">
+          <li>
+            <a href="#!">Home</a>
+          </li>
+          <li class="mb-1">
+            <a href="#!">Products</a>
+          </li>
+          <li class="mb-1">
+            <a href="#!">Cart</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-lg-3 col-md-6 mb-4">
+        <h5 class="mb-1 text-center">
+          Operational Hours
+        </h5>
+        <table class="table">
+          <tbody>
+            <tr>
+              <td class='text-center'>Mon - Fri:</td>
+              <td>12am - 11:59am</td>
+            </tr>
+            <tr>
+              <td class='text-center'>Sat - Sun:</td>
+              <td>12am - 11:59am</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
-</footer><!-- End Footer -->
+  <div class="text-center p-3">
+    © 2023 Copyright:
+    <a href="{% url 'index' %}">Kevin Nguyen</a>
+  </div>
+  <!-- Copyright -->
+</footer>
+<!-- End of .container -->
 {% endblock %}
