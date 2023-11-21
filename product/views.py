@@ -4,4 +4,4 @@ from django.views import View
 
 class ProductView(View):
     def get(self, request):
-        return render(request, 'pages/index.html', self.context)
+        return render(request, 'pages/index.html')

@@ -1,0 +1,46 @@
+{% extends 'base.html' %} {% block content %}
+<!-- Register Form -->
+<div class="container">
+  <div class="row justify-content-center mt-5 mb-5">
+    <div class="col-lg-4 col-md-6 col-sm-6">
+      <div class="card shadow">
+        <div class="card-title text-center border-bottom">
+          <h2 class="p-5">Register An Account</h2>
+        </div>
+
+        {% comment %} ERROR HTML {% endcomment %}
+        {% if form.errors %}
+        <div class="error-message">
+          <p class="m-auto text-center pb-3 text-danger">
+            Please correct the errors below:
+          </p>
+          <ul>
+            {% for field, errors in form.errors.items %} 
+              {% for error in errors%}
+              <li class="pt-1">{{ error }}</li>
+              {% endfor %} 
+            {% endfor %}
+          </ul>
+        </div>
+        {% endif %}
+
+        {% comment %} Form Generation {% endcomment %}
+        <div class="card-body">
+          {% if error_message %}
+          <p style="color: red">{{ error_message }}</p>
+          {% endif %}
+          <form action="{% url 'signup' %}" method="post">
+            {% csrf_token %} {{ form }}
+            <div class="mb-4"></div>
+            <div class="d-grid pb-5">
+              <button type="submit" class="btn text-dark main-bg">
+                Register
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
