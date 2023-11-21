@@ -17,20 +17,17 @@
           <ul>
             {% for field, errors in form.errors.items %} 
               {% for error in errors%}
-              <li class="pt-1">{{ error }}</li>
+              <li class="pt-1">{{field}} : {{ error }}</li>
               {% endfor %} 
             {% endfor %}
           </ul>
         </div>
         {% endif %}
 
-        {% comment %} Form Generation {% endcomment %}
         <div class="card-body">
-          {% if error_message %}
-          <p style="color: red">{{ error_message }}</p>
-          {% endif %}
           <form action="{% url 'signup' %}" method="post">
-            {% csrf_token %} {{ form }}
+            {% csrf_token %} 
+            {{ form }}
             <div class="mb-4"></div>
             <div class="d-grid pb-5">
               <button type="submit" class="btn text-dark main-bg">

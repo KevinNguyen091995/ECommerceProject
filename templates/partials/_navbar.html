@@ -28,12 +28,14 @@
             >Account Settings</a
           >
           <div class="dropdown-menu dropdown-menu-end">
+            {% if user.is_authenticated == False %}
             <a href="{% url 'login' %}" class="dropdown-item nav-item">Login</a>
+            <a href="{% url 'signup' %}" class="dropdown-item nav-item">Register</a>
+            {% else %}
             <a href="#" class="dropdown-item nav-item">Profile</a>
             <a href="#" class="dropdown-item nav-item">Settings</a>
-            <div class="dropdown-divider"></div>
-            <a href="{% url 'signup' %}" class="dropdown-item nav-item">Register</a>
-            <a href="#" class="dropdown-item nav-item">Logout</a>
+            <a href="{% url 'loggedout' %}" class="dropdown-item nav-item">Logout</a>
+            {% endif %}
           </div>
         </li>
       </ul>
@@ -49,8 +51,6 @@
           <div class="dropdown-menu dropdown-menu-end">
             <a href="#" class="dropdown-item nav-item">View Listed Products</a>
             <a href="#" class="dropdown-item nav-item">Add Product</a>
-            <div class="dropdown-divider"></div>
-            <a href="#" class="dropdown-item nav-item">Logout</a>
           </div>
         </li>
       </ul>
