@@ -27,7 +27,7 @@
 ## 5. Run Server
 Within ECommerce Directory
 - python manage.py runserver
-- 
+
 ## 6. Mess Around
 To Create SuperUser for Django Admin
 - python manage.py createsuperuser (Enter Username, Password)
