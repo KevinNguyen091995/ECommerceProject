@@ -9,6 +9,12 @@
 - Add To Cart
 - Fake Purchase
 
+## Future Features
+- Django Rest Framework
+  - Create Token and Authenticate API Calls
+  - List Products and Seller information
+  - Top Sellers and Images
+
 # How to Setup
 ## 1. GitClone Project or Download ZIP
 - git clone https://github.com/KevinNguyen091995/ECommerceProject.git
