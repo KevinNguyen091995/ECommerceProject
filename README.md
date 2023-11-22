@@ -1,4 +1,10 @@
-## E-Commerce Project
+## E-Commerce Project Objective
+- The objective was to employ Django as an MVT framework and harness its full capabilities to construct a demonstration E-Commerce Web Application. This involved establishing Models, defining relationships, and utilizing the ORM for optimal functionality.
+- Develop views to manage the presentation logic, encompassing product listings, individual product pages, user authentication procedures, and the administration of shopping carts. Take advantage of Django's class-based views to enhance efficiency and promote code reusability.
+- Craft HTML templates for rendering page content, employing the Django template language for dynamic data rendering sourced from views.
+- Implement forms to handle user input, facilitating actions like adding products to a shopping cart or completing an order.
+- Employ Django's integrated authentication system for seamless handling of user registration, login, and logout processes.
+- Configure URLs to seamlessly map to respective views, ensuring a well-organized and accessible web application structure.
 
 ## Features
 - Account Registration
