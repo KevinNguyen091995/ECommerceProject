@@ -21,7 +21,7 @@ class SignUpView(View):
     def get(self, request):
         form = SignUpForm()
         
-        return render(request, 'pages/signup.html', {'form': form})
+        return render(request, 'authentication/signup.html', {'form': form})
     
     def post(self, request):
         form = SignUpForm(request.POST)
@@ -31,7 +31,7 @@ class SignUpView(View):
             return redirect('login')
         
         else:
-            return render(request, 'pages/signup.html', {'form': form})
+            return render(request, 'authentication/signup.html', {'form': form})
         
 class LoginView(View):
     def get(self, request):
@@ -41,12 +41,13 @@ class LoginView(View):
             return redirect('index')
         
         else:
-            return render(request, 'pages/login.html', {'form': form})
+            return render(request, 'authentication/login.html', {'form': form})
     
     def post(self, request):
         form = LoginForm(request.POST)
 
         if form.is_valid():
+            # Authenticate Username/Password Inputted
             username = form.cleaned_data['username']
             password = form.cleaned_data['password']
             
@@ -57,14 +58,18 @@ class LoginView(View):
                 return redirect('loggedin')
             
             else:
-                return render(request, 'pages/login.html', {'form': form, 'error_message' : 'Did not find a match with username/password combination'})
+                return render(request, 'authentication/login.html', {'form': form, 'error_message' : 'Did not find a match with username/password combination'})
             
         else:
-            return render(request, 'pages/login.html', {'form': form})
+            return render(request, 'authentication/login.html', {'form': form})
     
 class SuccessLoginView(View):
     def get(self, request):
-        return render(request, 'pages/loggedin.html')
+        if request.user.is_authenticated:
+            return render(request, 'authentication/loggedin.html')
+        
+        else:
+            return redirect('login')
     
 class LoggedOutView(View):
     def get(self, request):
@@ -74,4 +79,4 @@ class LoggedOutView(View):
         else:
             redirect('login')
             
-        return render(request, 'pages/loggedout.html')
+        return render(request, 'authentication/loggedout.html')
