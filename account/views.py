@@ -1,22 +1,34 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.views import View
 from .forms import SignUpForm, LoginForm
 from .models import AccountAvatar
 
-class ProfileView(View):
-    pass
+class AccountDetailView(View):
+    template_name = 'account/profile_view.html'
+    
+    def get(self, request):
+        # Checked Login Profile View
+        if request.user.is_authenticated:
+            current_user = AccountAvatar.objects.filter(user = request.user)
+            return render(request, self.template_name, {'current_user' : current_user})
+        
+        else:
+            redirect('login')
 
 class SignUpView(View):
+    template_name = 'account/sign_up.html'
+
     def get(self, request):
+        # Generate Registration Form
         form = SignUpForm()
-        
-        return render(request, 'account/signup.html', {'form': form})
+        return render(request, self.template_name, {'form': form})
     
     def post(self, request):
         form = SignUpForm(request.POST)
         
         if form.is_valid():
+            # Gather Input and Save user to DB
             user = form.save(commit=False)
             user.save()
 
@@ -25,9 +37,11 @@ class SignUpView(View):
             return redirect('login')
         
         else:
-            return render(request, 'account/signup.html', {'form': form})
+            return render(request, self.template_name, {'form': form})
         
 class LoginView(View):
+    template_name = 'account/login.html'
+
     def get(self, request):
         form = LoginForm()
 
@@ -35,42 +49,48 @@ class LoginView(View):
             return redirect('index')
         
         else:
-            return render(request, 'account/login.html', {'form': form})
+            return render(request, self.template_name, {'form': form})
     
     def post(self, request):
         form = LoginForm(request.POST)
 
         if form.is_valid():
-            # Authenticate Username/Password Inputted
+            #Authenticate Username/Password Inputted
             username = form.cleaned_data['username']
             password = form.cleaned_data['password']
-            
             user = authenticate(request, username=username, password=password)
 
             if user is not None:
+                #Login User
                 login(request, user)
                 return redirect('loggedin')
             
             else:
-                return render(request, 'account/login.html', {'form': form, 'error_message' : 'Did not find a match with username/password combination'})
+                return render(request, self.template_name, {'form': form, 'error_message' : 'Did not find a match with username/password combination'})
             
         else:
-            return render(request, 'account/login.html', {'form': form})
+            return render(request, self.template_name, {'form': form})
     
 class SuccessLoginView(View):
+    template_name = 'account/logged_in.html'
+
     def get(self, request):
+        # Successful Login
         if request.user.is_authenticated:
-            return render(request, 'account/loggedin.html')
+            return render(request, self.template_name)
         
         else:
             return redirect('login')
     
 class LoggedOutView(View):
+    template_name = 'account/logged_out.html'
+
     def get(self, request):
+        # Successful Logout
         if request.user.is_authenticated:
             logout(request)
         
         else:
             redirect('login')
             
-        return render(request, 'account/loggedout.html')
+        return render(request, self.template_name)
