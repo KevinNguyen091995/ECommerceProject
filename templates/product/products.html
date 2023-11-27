@@ -1,39 +1,7 @@
-{% extends 'base.html' %} {% block content %}
-<div class="container bg-trasparent my-2 p-1">
-    {% for cloth in clothes %}
-    <div class="col d-flex col-md-4 col-sm-6 col-lg-3 col-8 justify-content-center mx-auto py-4">
-      <div class="card shadow-sm">
-        <a href="#">
-          <img
-            src="{{ cloth.image.url }}"
-            class="card-img-top" height='300px'
-            alt="product.title"
-          />
-        </a>
+{% extends 'base.html' %} 
+{% block content %}
 
-        <div class="label-top shadow-sm text-center p-2">
-          <a class="text-dark font-size-14" target="_blank" href="#"
-            >{{ cloth.name }}</a
-          >
-          </div>
-          <div class="card-body">
-            <div class="clearfix mb-3 text-center">
-            <span class="badge rounded-pill bg-danger"
-              >$ {{ cloth.price }}</span
-            >
+{% include 'product/product_cloth.html' %}
+{% include 'product/product_electronics.html' %}
 
-              </div>
-              <h5 class="card-title">
-              <a target="_blank" href="#"
-                >{{ cloth.description }}</a
-              >
-
-            </div>
-          </div>
-        </div>
-      {% endfor %}
-      </div>
-    </div>
-  </div> 
-</div>
 {% endblock %}

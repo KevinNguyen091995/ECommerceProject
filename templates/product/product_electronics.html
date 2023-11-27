@@ -1,0 +1,56 @@
+{% block content %}
+{% comment %} Electronics Headline {% endcomment %}
+<section class="style-theme py-1 container rounded">
+    <div class="row my-2 shadow justify-content-center">
+      <div class="col-md-6  bg-turquoise text-center">
+        <h2 class='text-light display-3'>Check Out Our Electronics</h2>
+      </div>
+    </div>
+  </section>
+  
+  {% comment %} Electronics Cards {% endcomment %}
+  <div class="container bg-trasparent my-2 p-1">
+    <div class="row">
+      {% for electronic in electronics %}
+      <div class="col d-flex col-md-4 col-sm-6 col-lg-3 col-8 mx-auto py-4 ">
+        <div class="card shadow-sm">
+          <a href="#">
+            <img
+              src="{{ electronic.image.url }}"
+              class="card-img-top" height='275px'
+              alt="product.title"
+            />
+          </a>
+  
+          <div class="label-top shadow-sm text-center p-2">
+            <a class="text-dark font-size-14" target="_blank" href="#"
+              >{{ electronic.name }}</a
+            >
+            </div>
+            <div class="card-body">
+              <div class="clearfix mb-3 text-center">
+              <span class="badge rounded-pill bg-danger"
+                >$ {{ electronic.price }}</span
+              >
+  
+                </div>
+                <h5 class="card-title">
+                <a target="_blank" href="#"
+                  >{{ electronic.description }}</a
+                >
+  
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+        </div>
+      </div>
+    </div> 
+  </div>  
+
+<div class='container pb-5'>
+  <div class='row justify-content-center h-100'>
+    <a href="{% url 'index' %}" class="btn style-theme btn-lg" role="button">Shop More Electronics</a>
+  </div>
+</div>
+{% endblock%}

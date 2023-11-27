@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from .models import Product
 from django.views import View
+from django.core.paginator import Paginator
 
 class ProductView(View):
     electronics = Product.objects.order_by('-date_listed').filter(tag = 'el')
@@ -9,11 +10,13 @@ class ProductView(View):
     other = Product.objects.order_by('-date_listed').filter(tag = 'ot')
 
     context = {
-        'electronics' : electronics,
         'clothes' : clothes,
+        'electronics' : electronics,
         'food' : food,
-        'other' : other
+        'other' : other,
     }
 
+
     def get(self, request):
+
         return render(request, 'product/products.html', self.context)
