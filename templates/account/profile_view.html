@@ -1,7 +1,6 @@
 {% extends 'base.html' %} 
 {% load static %} 
 {% block content %} 
-{% if user.is_authenticated %}
 <section style="background-color: #eee">
   <div class="container py-5">
     <div class="row">
@@ -248,10 +247,4 @@
     </div>
   </div>
 </section>
-{% else %}
-
-<div>
-  <p>Failed</p>
-</div>
-
-{% endif %} {% endblock %}
+{% endblock %}

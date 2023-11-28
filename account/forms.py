@@ -1,14 +1,20 @@
-from django.forms import ModelForm
 from django import forms
-from django.core.exceptions import ValidationError
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
+from .models import VerifiedUser, AccountAvatar
 
 class SignUpForm(UserCreationForm):
     class Meta:
         model = User
         fields = ['first_name', 'last_name', 'username', 'email', 'password1', 'password2']
 
+    #Create and save avatar and verified user
+    def save(self, commit=True):
+        user = super().save(commit)
+        account_avatar = AccountAvatar.objects.create(user = user)
+        verified_user = VerifiedUser.objects.create(user = user)
+
+        return account_avatar, verified_user
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

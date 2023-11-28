@@ -9,3 +9,15 @@ class AccountAvatar(models.Model):
 
     def __str__(self):
         return f"{self.user.username}"
+    
+class UserRating(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='ratings_given')
+    rated_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='ratings_received')
+    rating = models.PositiveIntegerField()
+
+class VerifiedUser(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    verified = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"{self.user.username}"

@@ -1,33 +1,27 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.views import View
 from .forms import SignUpForm, LoginForm
-from .models import AccountAvatar
+from .models import AccountAvatar, VerifiedUser
 from product.models import Product
+from django.contrib import messages
 
 class AccountDetailView(View):
     template_name = 'account/profile_view.html'
     
     def get(self, request, username):
-        print(username)
+        current_user = User.objects.filter(username = username).get()
+        current_user_avatar = AccountAvatar.objects.filter(user = current_user.id).get()
+        total_products = len(Product.objects.filter(seller = current_user.id))
 
-        # Checked Login Profile View
-        if request.user.is_authenticated:
-            current_user = User.objects.filter(username = username).get()
-            current_user_avatar = AccountAvatar.objects.filter(user = current_user.id).get()
-            total_products = len(Product.objects.filter(seller = current_user.id))
-
-            context = {
-                'current_user' : current_user,
-                'current_user_avatar' : current_user_avatar,
-                'total_products' : total_products
-                }
-            
-            return render(request, self.template_name, context)
+        context = {
+            'current_user' : current_user,
+            'current_user_avatar' : current_user_avatar,
+            'total_products' : total_products
+            }
         
-        else:
-            return redirect('login')
+        return render(request, self.template_name, context)
 
 class SignUpView(View):
     template_name = 'account/sign_up.html'
@@ -41,12 +35,9 @@ class SignUpView(View):
         form = SignUpForm(request.POST)
         
         if form.is_valid():
-            # Gather Input and Save user to DB
-            user = form.save(commit=False)
-            user.save()
+            form.save()
+            messages.success(request, f'Success! Account created. You can now log in.')
 
-            #Create Profile with Defaulted Icon
-            AccountAvatar.objects.create(user=user)
             return redirect('login')
         
         else:
