@@ -1,20 +1,33 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import User
 from django.views import View
 from .forms import SignUpForm, LoginForm
 from .models import AccountAvatar
+from product.models import Product
 
 class AccountDetailView(View):
     template_name = 'account/profile_view.html'
     
-    def get(self, request):
+    def get(self, request, username):
+        print(username)
+
         # Checked Login Profile View
         if request.user.is_authenticated:
-            current_user = AccountAvatar.objects.filter(user = request.user)
-            return render(request, self.template_name, {'current_user' : current_user})
+            current_user = User.objects.filter(username = username).get()
+            current_user_avatar = AccountAvatar.objects.filter(user = current_user.id).get()
+            total_products = len(Product.objects.filter(seller = current_user.id))
+
+            context = {
+                'current_user' : current_user,
+                'current_user_avatar' : current_user_avatar,
+                'total_products' : total_products
+                }
+            
+            return render(request, self.template_name, context)
         
         else:
-            redirect('login')
+            return redirect('login')
 
 class SignUpView(View):
     template_name = 'account/sign_up.html'
@@ -91,6 +104,6 @@ class LoggedOutView(View):
             logout(request)
         
         else:
-            redirect('login')
+            return redirect('login')
             
         return render(request, self.template_name)
