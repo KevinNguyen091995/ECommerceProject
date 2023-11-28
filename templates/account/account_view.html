@@ -7,6 +7,7 @@
       <div class="col-lg-4">
         <div class="card mb-4">
           <div class="card-body text-center">
+            {% comment %} Avatar Static or Media Img {% endcomment %}
             {% if 'default_icon' in current_user_avatar.avatar.url %}
             <img src="{% static 'images/default_icon.jpg' %}" alt="avatar" class="rounded-circle img-fluid" style="width: 150px"/>
             {% else %}
@@ -18,6 +19,7 @@
             />
             {% endif %}
 
+            {% comment %} All Listing or Messaage Button {% endcomment %}
             <h5 class="my-3">{{ current_user.username }}</h5>
             <p class="text-muted mb-1">
               {{ current_user.first_name }} {{ current_user.last_name }}
@@ -33,6 +35,32 @@
             </div>
           </div>
         </div>
+
+        {% if error_message %}
+        <div class="text-center font-size-14 text-danger">
+          {{ error_message }}
+        </div>
+        {% endif %}
+
+        {% if form %}
+        <form method="post" class='p-5'>
+          {% csrf_token %}
+          {{ form.comment }}
+          {{ form.rating.as_hidden }}
+          
+          <div class="row justify-content-center p-3 star-rating">
+              <a style="color: orange" name='rating' href="#" class='font-size-14' data-value="1">★</a>
+              <a style="color: orange" name='rating' href="#" class='font-size-14' data-value="2">★</a>
+              <a style="color: orange" name='rating' href="#" class='font-size-14' data-value="3">★</a>
+              <a style="color: orange" name='rating' href="#" class='font-size-14' data-value="4">★</a>
+              <a style="color: orange" name='rating' href="#" class='font-size-14' data-value="5">★</a>
+          </div>
+
+      
+          <button class='col-md-12 p-1' type="submit">Submit Rating</button>
+        </form>
+        {% endif %}
+
 
         <div class="card mb-4 mb-lg-0">
           <div class="card-body p-0">
@@ -247,4 +275,21 @@
     </div>
   </div>
 </section>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+      const ratingLinks = document.querySelectorAll('.star-rating a');
+
+      ratingLinks.forEach(function(link) {
+          link.addEventListener('click', function(event) {
+              event.preventDefault();
+
+              const ratingValue = event.target.getAttribute('data-value');
+              document.querySelector('#id_rating').value = ratingValue;
+              
+              // Optionally, you can provide visual feedback to the user, like highlighting the selected star.
+          });
+      });
+  });
+</script>
 {% endblock %}

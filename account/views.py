@@ -2,26 +2,50 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.views import View
-from .forms import SignUpForm, LoginForm
+from django.contrib import messages
+from .forms import SignUpForm, LoginForm, RateUserForm
 from .models import AccountAvatar, VerifiedUser
 from product.models import Product
-from django.contrib import messages
 
-class AccountDetailView(View):
-    template_name = 'account/profile_view.html'
-    
-    def get(self, request, username):
-        current_user = User.objects.filter(username = username).get()
-        current_user_avatar = AccountAvatar.objects.filter(user = current_user.id).get()
-        total_products = len(Product.objects.filter(seller = current_user.id))
 
-        context = {
-            'current_user' : current_user,
-            'current_user_avatar' : current_user_avatar,
-            'total_products' : total_products
-            }
+def AccountDetailView(request, username):
+    form = RateUserForm()
+
+    current_user = User.objects.filter(username = username).get()
+    current_user_avatar = AccountAvatar.objects.filter(user = current_user.id).get()
+    total_products = len(Product.objects.filter(seller = current_user.id)) 
+    not_same_user = current_user.id != request.user.id
+
+    context = {
+    'current_user' : current_user,
+    'current_user_avatar' : current_user_avatar,
+    'total_products' : total_products,
+    } 
+
+    # Add form to profile view if not same user and allows to comment/rate
+    if not_same_user:
+        context.update({'form' : form})
+
+    if request.method == 'POST' and not_same_user:
+        form = RateUserForm(request.POST)
+
+        if request.user.is_authenticated == False:
+            return render(request, 'account/login.html', {'error_message' : 'Need to login to rate a user'})
+
+        if form.is_valid() and form.cleaned_data['rating'] > 0 and form.cleaned_data['rating'] <= 5:
+            form.instance.user = current_user
+            form.instance.rated_user_id = current_user.id
+            form.save()
+            return render(request, 'account/account_view.html', context)
         
-        return render(request, self.template_name, context)
+        else:
+            context.update({'error_message' : 'Invalid Rating, please ensure both fields are selected/filled'})
+            return render(request, 'account/account_view.html', context)
+
+    
+
+    return render(request, 'account/account_view.html', context)    
+
 
 class SignUpView(View):
     template_name = 'account/sign_up.html'
@@ -43,6 +67,7 @@ class SignUpView(View):
         else:
             return render(request, self.template_name, {'form': form})
         
+
 class LoginView(View):
     template_name = 'account/login.html'
 
@@ -75,6 +100,7 @@ class LoginView(View):
         else:
             return render(request, self.template_name, {'form': form})
     
+
 class SuccessLoginView(View):
     template_name = 'account/logged_in.html'
 
