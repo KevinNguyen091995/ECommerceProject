@@ -18,7 +18,7 @@ def AccountDetailView(request, username):
 
     # Product
     total_products = len(Product.objects.filter(seller = current_user.id))
-    account_product = Product.objects.order_by('-date_listed')[:3]
+    account_products = Product.objects.order_by('-date_listed').filter(seller_id = current_user.id)[:3]
 
     # Reviews
     reviews = UserRating.objects.order_by('-date_reviewed').filter(user = current_user.id)[:5]
@@ -32,7 +32,7 @@ def AccountDetailView(request, username):
     'current_user_avatar' : current_user_avatar,
     'total_products' : total_products,
     'reviews' : reviews,
-    'account_product' : account_product,
+    'account_products' : account_products,
     } 
 
     # Add form to profile view if not same user and allows to comment/rate

@@ -2,9 +2,8 @@
 {% load static %} 
 {% block content %} 
 <section style="background-color: #eee">
-  <div class="container py-5">
-    <div class="row">
-      <div class="col-lg-4">
+  <div class="container-fluid py-5 row justify-content-center">
+      <div class="col-lg-3 col-md-4 col-sm-4 ">
         <div class="card mb-4">
           <div class="card-body text-center p-3">
             {% comment %} Avatar Static or Media Img {% endcomment %}
@@ -71,7 +70,7 @@
         </div>
       </div>
 
-      <div class="col-lg-8">
+      <div class="col-lg-7 font-size-14">
         <div class="card mb-4">
           <div class="card-body">
             <div class="row">
@@ -102,9 +101,39 @@
             </div>
           </div>
         </div>
-        TEST
+        
+        {% comment %} 3 Product Listing {% endcomment %}
+        <div class='text-center'>
+          <h3 class='text-light bg-dark py-3'> Newest Products By {{ current_user.username }}<h3>
+        </div>
+        <div class='container style-theme rounded'>
+          <div>
+            {% for product in account_products %}
+            <div class="container py-3 text-center">
+              <div class="row justify-content-center ">
+                  <div class="card bg-dark" style="width: 36rem;">
+                    <div class="card-body">
+                      <h4 class="card-title rounded mx-5 m-2">{{ product.name }}</h4>
+                      <hr class="py-1 bg-muted">
+                      <a href="#">
+                        <img src="{{ product.image.url }}" class="card-img-top" style="height: 275px;" alt="product.title">
+                      </a>
+                      <h5 class="card-title py-4 text-white">{{ product.description }}</h5>
+                      <h6 class="card-subtitle mb-2"></h6>
+                      <hr class="py-1 bg-muted">
+                      <p class="card-text text-center">{{ product.price }}</p>
+                      <div class="row justify-content-between">
+                        <button class="btn btn-primary">Add To Cart</button>
+                        <button class="btn btn-primary">Buy Now</button>
+                      </div>
+                    </div>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
       </div>
-    </div>
   </div>
 </section>
 
