@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.conf.urls.static import static
+from django.utils import timezone
 
 
 class AccountAvatar(models.Model):
@@ -15,6 +16,7 @@ class UserRating(models.Model):
     rated_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='ratings_received')
     comment = models.TextField(default = '')
     rating = models.PositiveIntegerField()
+    date_reviewed = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
         return f"{self.user.username} : {self.rating}"

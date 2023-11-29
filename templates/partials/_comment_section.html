@@ -1,0 +1,38 @@
+{% block content %}
+<section>
+  <div class='py-5'>
+    <p class='text-center font-size-14 text-dark'> Reviews </p>
+    <div class='text-center row justify-content-center'>
+    {% for review in reviews %}
+    <div class="card" style="width: 26rem;">
+      <div class="card-body">
+        <h5 class="card-title bg-dark text-white rounded mx-5 m-2">
+          {{ review.rated_user }}
+        </h5>
+        <hr class='py-2'>
+        <h6 class="card-subtitle mb-2 text-muted">     
+          {% if review.rating == 1 %}
+          <p style="color: orange" name='rating' href="#" class='font-size-14'> ★ </p>
+    
+          {% elif review.rating == 2 %}
+          <p style="color: orange" name='rating' href="#" class='font-size-14'> ★★ </p>
+    
+          {% elif review.rating == 3 %}
+          <p style="color: orange" name='rating' href="#" class='font-size-14'> ★★★ </p>
+    
+          {% elif review.rating == 4 %}
+          <p style="color: orange" name='rating' href="#" class='font-size-14'> ★★★★ </p>
+    
+          {% elif review.rating == 5 %}
+          <p style="color: orange" name='rating' href="#" class='font-size-14'> ★★★★★ </p>
+        </h6>
+          {% endif %}
+
+        <p class="card-text">{{ review.comment }}</p>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+
+{% endblock %}
